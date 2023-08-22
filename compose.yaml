@@ -1,0 +1,18 @@
+services:
+  gradio:
+    environment:
+      - ENVIRONMENT=gcp
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: python3 app.py
+
+    ports:
+      - "7860:7860"
