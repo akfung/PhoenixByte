@@ -1,8 +1,0 @@
-steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'phoenix-byte', '.']
-    env:
-      - 'ENVIRONMENT=gcp'
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-west2-docker.pkg.dev/nomadic-proton-276008/gradio-app/myimage']

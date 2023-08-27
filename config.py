@@ -14,19 +14,5 @@ elif env == 'spaces':
 elif env == 'gcp':
     model_path = 'model/'
     tokenizer_path = 'tokenizer.model'
-    bucket_name = 'phoenix-byte'
-    os.environ["GCLOUD_PROJECT"] = "phoenix-byte"
-
 
 max_new_tokens = os.environ.get('max_new_tokens', 100)
-
-model_files = [
-    'config.json',
-    'generation_config.json',
-    'pytorch_model-00001-of-00002.bin',
-    'pytorch_model-00002-of-00002.bin',
-    'pytorch_model.bin.index.json'
-]
-
-readme = "Provide a legal case description or click on Get Random Case to get a random case from Wikipedia's \
-    pending US Supreme Court cases. Click run to generate the predicted US Supreme Court opinion."

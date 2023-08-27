@@ -4,7 +4,7 @@ In the leadup to many US Supreme Court cases, there is often rampant speculation
 
 ## Training Data
 
-Training data for this project was gathered from Justia using the basic requests library. It consists of case summaries and court opinions dating back to 2013, consisting of 762 cases and over 10M tokens. I collected both court opinions and the opinions of individual justices, but at the current time only the court opinions were used for fine tuning.
+Training data for this project was gathered from Justia using the basic requests library and consists of case summaries and court opinions dating back to 2013 and consists of over 700 cases. I collected both court opinions and the opinions of individual justices, but at the current time only the court opinions were used for fine tuning.
 
 ## Model
 The base model is Meta’s Llama2 7B, chosen because it can be trained on an 8GB consumer GPU with quantization. The model finetuning was performed on a laptop RTX 4060 using 4bit normal float quantization and Low-Rank adapters through the Hugging Face transformers and PEFT libraries. LoRA updates were merged with the model following training completion.
