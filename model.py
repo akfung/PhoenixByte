@@ -3,7 +3,7 @@ import os
 from threading import Thread
 from google.cloud import storage
 from transformers import LlamaForCausalLM, LlamaTokenizer, BitsAndBytesConfig, TextIteratorStreamer, pipeline
-from config import model_path, tokenizer_path, max_new_tokens, bucket_name, model_files
+from config import model_path, tokenizer_path, max_new_tokens, bucket_name, model_files, env
 
 class Model:
     '''Client class for holding Llama2 model and tokenizer. Models are loaded according to 
@@ -22,6 +22,9 @@ class Model:
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.float16,
         )
+        #download files if running GCP
+        if env == 'gcp':
+            self.download_checkpoints(bucket_name=bucket_name)
         self.model = LlamaForCausalLM.from_pretrained(model_path, quantization_config=self.bnb_config)
         self.tokenizer = LlamaTokenizer.from_pretrained(tokenzier_path)
         self.streamer = TextIteratorStreamer(self.tokenizer, skip_prompt=True)

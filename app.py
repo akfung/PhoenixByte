@@ -11,9 +11,6 @@ def run():
     case_placeholder = summaries.random_summary()
     model = Model(model_path=model_path, tokenzier_path=tokenizer_path)
     
-    #download files if running
-    if env == 'gcp':
-        model.download_checkpoints(bucket_name=bucket_name)
     with gr.Blocks() as demo:
         cache = gr.Textbox(visible=False)
         description = gr.Markdown(value=readme)
