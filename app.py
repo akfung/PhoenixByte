@@ -9,7 +9,7 @@ def run():
 
     summaries = CaseSummaries()
     case_placeholder = summaries.random_summary()
-    model = Model(model_path=model_path, tokenzier_path=tokenizer_path)
+    model = Model(model_path=model_path, tokenizer_path=tokenizer_path)
     
     with gr.Blocks() as demo:
         cache = gr.Textbox(visible=False)
