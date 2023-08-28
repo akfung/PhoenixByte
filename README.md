@@ -10,4 +10,4 @@ Training data for this project was gathered from Justia using the basic requests
 The base model is Meta’s Llama2 7B, chosen because it can be trained on an 8GB consumer GPU with quantization. The model finetuning was performed on a laptop RTX 4060 using 4bit normal float quantization and Low-Rank adapters through the Hugging Face transformers and PEFT libraries. LoRA updates were merged with the model following training completion.
 
 ## Deployment
-This app runs as a gradio app inside a docker container deployed to Google Cloud Run on a T4 instance. The model weights themselves are stored on Google Cloud storage.
+This app runs as a gradio app inside a docker container build on Google Cloudbuild and deployed to Compute Engine on a T4 instance. The model weights themselves are stored on Google Cloud storage.
