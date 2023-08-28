@@ -11,10 +11,10 @@ class Model:
     '''
     def __init__(self, 
                  model_path:str=model_path, 
-                 tokenzier_path:str=tokenizer_path,
+                 tokenizer_path:str=tokenizer_path,
                  max_new_tokens:int=max_new_tokens):
         self.model_path = model_path
-        self.tokenzier_path = tokenzier_path
+        self.tokenizer_path = tokenizer_path
         self.max_new_tokens = max_new_tokens
         self.bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -26,7 +26,7 @@ class Model:
         if env == 'gcp':
             self.download_checkpoints(bucket_name=bucket_name)
         self.model = LlamaForCausalLM.from_pretrained(model_path, quantization_config=self.bnb_config)
-        self.tokenizer = LlamaTokenizer.from_pretrained(tokenzier_path)
+        self.tokenizer = LlamaTokenizer.from_pretrained(tokenizer_path)
         self.streamer = TextIteratorStreamer(self.tokenizer, skip_prompt=True)
 
 
@@ -48,14 +48,14 @@ class Model:
     def download_checkpoints(self, bucket_name: str = bucket_name):
         """Downloads model files from gcp storage if running in gcp."""
         
-        if not(os.path.exists('models/')):
-            os.mkdir('models')
+        if not(os.path.exists('model/')):
+            os.mkdir('model')
         storage_client = storage.Client()
         bucket = storage_client.bucket(bucket_name)
 
         # get tokenizer
-        blob = bucket.blob(self.tokenzier_path)
-        blob.download_to_filename(self.tokenzier_path)
+        blob = bucket.blob(self.tokenizer_path)
+        blob.download_to_filename(self.tokenizer_path)
         
         # get model files to models/
         model_file_paths = [self.model_path + i for i in model_files]
