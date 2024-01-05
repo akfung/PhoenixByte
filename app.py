@@ -1,19 +1,26 @@
 
 import gradio as gr
 
-from config import model_path, tokenizer_path, env, bucket_name, readme
-from model import Model
-from case_summaries import CaseSummaries
+from src.config import readme
+from src.model import Model
+from src.config import justice_names
+from src.case_summaries import CaseSummaries
 
 def run():
-
+    choices = list(justice_names)+['Court']
     summaries = CaseSummaries()
     case_placeholder = summaries.random_summary()
-    model = Model(model_path=model_path, tokenizer_path=tokenizer_path)
+    model = Model()
     
-    with gr.Blocks() as demo:
+    with gr.Blocks(theme=gr.themes.Soft(text_size=gr.themes.sizes.text_lg)) as demo:
         cache = gr.Textbox(visible=False)
         description = gr.Markdown(value=readme)
+        dropdown = gr.Dropdown(
+            label="Justice Name",
+            choices=choices,
+            value='Court',
+            interactive=True,
+            )
         with gr.Row():
             btn = gr.Button(value="Get Random Case")
             btn2 = gr.Button(value="Run")
@@ -23,8 +30,8 @@ def run():
             txt2 = gr.Chatbot(label='Predicted Court Opinion')
 
         btn.click(summaries.random_summary, outputs=[txt], queue=False)
-        btn2.click(lambda x: x, txt, cache, queue=False).then(
-            model.inference, cache, txt2)
+        btn2.click(lambda x: x, inputs=[txt], outputs=cache, queue=False).then(
+            model.inference, inputs=[cache, dropdown], outputs=txt2)
 
     demo.queue().launch(server_name= "0.0.0.0", server_port=8080, share=False)
 

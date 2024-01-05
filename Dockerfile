@@ -1,7 +1,7 @@
 # FROM python:3.8.17
 FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-devel
 
-ARG ENVIRONMENT='gcp'
+ARG ENVIRONMENT='runpod'
 
 WORKDIR /code
    

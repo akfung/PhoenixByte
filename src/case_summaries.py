@@ -10,7 +10,7 @@ class CaseSummaries:
     def case_summaries(self):
         if self._case_summaries == None:
             r = requests.get('https://en.wikipedia.org/wiki/List_of_pending_United_States_Supreme_Court_cases')
-            soup = BeautifulSoup(r.content, 'html')
+            soup = BeautifulSoup(r.content, 'html.parser')
             self._case_summaries = soup.find_all(True, {'class': ['wikitable', 'sortable', 'jquery-tablesorter']})[0].find_all('tr')[1:]
         return self._case_summaries
 
