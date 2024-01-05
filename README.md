@@ -1,3 +1,13 @@
+---
+title: Phoenix-Byte
+colorFrom: green
+colorTo: indigo
+sdk: gradio
+sdk_version: 3.39.0
+app_file: app.py
+pinned: false
+---
+
 ## Introduction 
 
 In the leadup to many US Supreme Court cases, there is often rampant speculation and forecasting by legal experts, the media, and the general public as to what the outcome will be. There is sometimes consensus on the expected rulings, which seem to be based on the existing rulings made by the court and its Justices. Predictions based on existing publicly accessible text? Sounds like a deep learning project! This project makes a rudimentary attempt at predicting the Supreme Court’s ruling on a case when provided a brief overview of the case.
