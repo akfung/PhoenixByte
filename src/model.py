@@ -1,7 +1,6 @@
 import os
 import requests
 import time
-import torch
 # from google.cloud import storage
 from sentence_transformers import SentenceTransformer
 
@@ -15,7 +14,8 @@ class Model:
     def __init__(self, 
                  max_new_tokens:int=max_new_tokens):
         self.max_new_tokens = max_new_tokens
-        self.embedding_model = SentenceTransformer('multi-qa-mpnet-base-dot-v1')
+        # self.embedding_model = SentenceTransformer('multi-qa-mpnet-base-dot-v1')
+        self.embedding_model = SentenceTransformer('/embedding_model/')
 
 
     def inference(self, query:str, table:str):
