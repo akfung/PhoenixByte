@@ -37,6 +37,4 @@ tokenizer.model
 *$py.class
 .env
 /embedding_model/
-setup.py
-embedding_setup.sh
 src/db/*.json

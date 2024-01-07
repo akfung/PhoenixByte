@@ -47,6 +47,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
+embedding_path = os.environ.get('EMBEDDING_PATH')
 streaming_url = "https://api.runpod.ai/v2/o4tke61qpopsz0/stream/"
 job_url = "https://api.runpod.ai/v2/o4tke61qpopsz0/run"
 

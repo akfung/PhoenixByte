@@ -15,7 +15,7 @@ class Model:
                  max_new_tokens:int=max_new_tokens):
         self.max_new_tokens = max_new_tokens
         # self.embedding_model = SentenceTransformer('multi-qa-mpnet-base-dot-v1')
-        self.embedding_model = SentenceTransformer('/embedding_model/')
+        self.embedding_model = SentenceTransformer("/embedding_model/")
 
 
     def inference(self, query:str, table:str):

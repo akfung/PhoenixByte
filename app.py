@@ -33,7 +33,7 @@ def run():
         btn2.click(lambda x: x, inputs=[txt], outputs=cache, queue=False).then(
             model.inference, inputs=[cache, dropdown], outputs=txt2)
 
-    demo.queue().launch(share=False)
+    demo.queue().launch(share=False, server_name="0.0.0.0")
 
 if __name__=='__main__':
     run()
