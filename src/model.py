@@ -15,7 +15,7 @@ class Model:
                  max_new_tokens:int=max_new_tokens):
         self.max_new_tokens = max_new_tokens
         # self.embedding_model = SentenceTransformer('multi-qa-mpnet-base-dot-v1')
-        self.embedding_model = SentenceTransformer("/embedding_model/")
+        self.embedding_model = SentenceTransformer("embedding_model/")
 
 
     def inference(self, query:str, table:str):
@@ -35,19 +35,30 @@ class Model:
         if len(matches) > 0:
             match = '"""' + matches[0][0] + '"""'
 
-            context = "Use the following historical opinion delimited by tripple quotes to give your ruling on a court case description. " + match + " Description: "
+            context = "You are the United States Supreme Court. Use the following historical opinion delimited by triple quotes to give your ruling on a court case description. Historical opinion: " + match
         else:
-            context = 'Give your ruling on a court case description. Description:'
+            context = 'You are the United States Supreme Court. Give your ruling on a court case description.'
 
-        return context + query + " Answer in less than 400 words and without a self introduction."
+        return context + " Answer in less than 400 words. Do not introduce yourself"
 
     def query_model(self, query:str, table:str, default_payload:dict=default_payload, timeout:int=60, **kwargs) -> str:
         """Query the model api on runpod. Runs for 60s by default. Generator response until job is complete"""
 
-        augmented_prompt = self.get_context(query=query, table=table)
+        context = self.get_context(query=query, table=table)
         for k,v in kwargs:
             default_payload['input']['sampling_params'][k] = v
-        default_payload["input"]["prompt"] = augmented_prompt
+        augmented_prompt_template = [
+            {
+                "role": "system",
+                "content": context, 
+            },
+            {
+                "role": "user",
+                "content": query,
+            }
+        ] 
+        print(augmented_prompt_template)
+        default_payload["input"]["prompt"] = augmented_prompt_template
         job_id = requests.post(job_url, json=default_payload, headers=headers).json()['id']
         for i in range(timeout):
             time.sleep(1)

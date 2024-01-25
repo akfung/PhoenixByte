@@ -48,11 +48,12 @@ headers = {
 }
 
 embedding_path = os.environ.get('EMBEDDING_PATH')
-streaming_url = "https://api.runpod.ai/v2/o4tke61qpopsz0/stream/"
-job_url = "https://api.runpod.ai/v2/o4tke61qpopsz0/run"
+streaming_url = os.environ.get('STREAMING_URL')
+job_url = os.environ.get('JOB_URL')
 
 default_payload = { "input": {
         "prompt": "Who is the president of the United States?",
+        "apply_chat_template": True,
         "sampling_params": {
             "max_tokens": os.environ.get('max_new_tokens', 400),
             "n": 1,
