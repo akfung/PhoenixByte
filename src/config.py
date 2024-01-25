@@ -10,10 +10,12 @@ if env == 'local':
     model_path = '../merged_llama2/'
     tokenizer_path = '../Llama2/7B/tokenizer.model'
     load_dotenv()
+    embedding_path = "embedding_model/"
 
 elif env == 'spaces':
     model_path = 'akfung/llama_supreme'
     tokenizer_path = 'akfung/llama_supreme'
+    embedding_path = "/embedding_model/"
 
 elif env == 'gcp':
     model_path = 'model/'
@@ -47,7 +49,6 @@ headers = {
     "Content-Type": "application/json"
 }
 
-embedding_path = os.environ.get('EMBEDDING_PATH')
 streaming_url = os.environ.get('STREAMING_URL')
 job_url = os.environ.get('JOB_URL')
 

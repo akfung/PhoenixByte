@@ -4,7 +4,7 @@ import time
 # from google.cloud import storage
 from sentence_transformers import SentenceTransformer
 
-from .config import max_new_tokens, streaming_url, job_url, default_payload, headers
+from .config import max_new_tokens, streaming_url, job_url, default_payload, headers, embedding_path
 from .db.db_utilities import query_db
 
 class Model:
@@ -15,7 +15,7 @@ class Model:
                  max_new_tokens:int=max_new_tokens):
         self.max_new_tokens = max_new_tokens
         # self.embedding_model = SentenceTransformer('multi-qa-mpnet-base-dot-v1')
-        self.embedding_model = SentenceTransformer("embedding_model/")
+        self.embedding_model = SentenceTransformer(embedding_path)
 
 
     def inference(self, query:str, table:str):
@@ -35,11 +35,11 @@ class Model:
         if len(matches) > 0:
             match = '"""' + matches[0][0] + '"""'
 
-            context = "You are the United States Supreme Court. Use the following historical opinion delimited by triple quotes to give your ruling on a court case description. Historical opinion: " + match
+            context = "You are the United States Supreme Court. Use the following historical opinion to give your ruling on a court case description. Historical opinion: " + match
         else:
             context = 'You are the United States Supreme Court. Give your ruling on a court case description.'
 
-        return context + " Answer in less than 400 words. Do not introduce yourself"
+        return context + " Answer in less than 400 words in the format Opinion: <opinion> "
 
     def query_model(self, query:str, table:str, default_payload:dict=default_payload, timeout:int=60, **kwargs) -> str:
         """Query the model api on runpod. Runs for 60s by default. Generator response until job is complete"""
@@ -57,7 +57,7 @@ class Model:
                 "content": query,
             }
         ] 
-        print(augmented_prompt_template)
+
         default_payload["input"]["prompt"] = augmented_prompt_template
         job_id = requests.post(job_url, json=default_payload, headers=headers).json()['id']
         for i in range(timeout):
